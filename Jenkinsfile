@@ -7,6 +7,12 @@ pipeline {
 
     stages {
 
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
         stage('Checkout Code') {
             steps {
                 echo 'Downloading Code'
@@ -32,16 +38,16 @@ pipeline {
         }
     }
 
-   post {
-    always {
-        publishHTML(target: [
-            allowMissing: true,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'playwright-report',
-            reportFiles: 'index.html',
-            reportName: 'Playwright Report'
-        ])
+    post {
+        always {
+            publishHTML(target: [
+                allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'playwright-report',
+                reportFiles: 'index.html',
+                reportName: 'Playwright Report'
+            ])
+        }
     }
-}
 }
