@@ -1,12 +1,15 @@
 pipeline {
-
     agent any
+
+    tools {
+        nodejs 'NodeJS-22'
+    }
 
     stages {
 
         stage('Checkout Code') {
             steps {
-                echo 'Code Downloaded'
+                echo 'Downloading Code'
             }
         }
 
@@ -27,13 +30,10 @@ pipeline {
                 bat 'npx playwright test'
             }
         }
-
     }
 
     post {
-
         always {
-
             publishHTML([
                 reportDir: 'playwright-report',
                 reportFiles: 'index.html',

@@ -1,19 +1,45 @@
-// @ts-check
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test('Basic Actions-1', async({page}) =>{
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-});
+await page.goto('https://xqa.io/practice');
+await expect(page).toHaveURL('https://xqa.io/practice');
+await expect(page).toHaveTitle("40+ Free Automation Testing Practice Exercises | Selenium, Cypress, Playwright | XQA");
+await expect(page).toHaveTitle(/Playwright | XQA /i);   //----> Another way to validate the title
+await page.waitForTimeout(2000);
+console.log(await page.title());
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+await page.getByRole('heading',{name:'Elements'}).click();
+await expect(page).toHaveURL('https://xqa.io/practice/text-box');
+console.log(await page.title());
+await expect(page).toHaveTitle(/Text Box/i);
+await expect(page).toHaveTitle('Text Box - Automation Testing Practice | XQA');
 
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
+await expect(page.getByLabel('Full Name')).toBeVisible();
+await page.waitForTimeout(5000);
 
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
-});
+})
+// Locator finding by using css selector and use the assertions
+test.only('Basic Actions-2', async({page}) =>{
+    await page.goto('https://xqa.io/practice/text-box');
+    await page.locator('#userName').fill('Bhupesh Giri');
+    console.log(await page.locator('#userName').inputValue());
+    console.log(await page.title());
+   await expect(page).toHaveTitle(/Practice/i);
+    await page.waitForTimeout(3000);
+})
+// Locator finding by using getByPlaceholder and use the assertions
+test('Basic Actions-3', async({page})=>{
+    await page.goto('https://xqa.io/practice/text-box');
+    console.log(await page.title());
+    await expect(page).toHaveTitle(/Testing Practice/i);
+   await expect(page.getByPlaceholder('John Doe')).toBeVisible();
+   await page.waitForTimeout(3000);
+})
+
+// Locator finding by using getByRole and use the assertions
+test('Basic Actions-4', async({page}) =>{
+    await page.goto('https://xqa.io/practice/text-box');
+    await expect(page.getByRole('textbox', {name:'Full Name'})).toBeVisible();
+    await page.waitForTimeout(3000);
+})
