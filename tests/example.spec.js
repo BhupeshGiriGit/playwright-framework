@@ -20,7 +20,7 @@ await page.waitForTimeout(5000);
 
 })
 // Locator finding by using css selector and use the assertions
-test.only('Basic Actions-2', async({page}) =>{
+test('Basic Actions-2', async({page}) =>{
     await page.goto('https://xqa.io/practice/text-box');
     await page.locator('#userName').fill('Bhupesh Giri');
     console.log(await page.locator('#userName').inputValue());
